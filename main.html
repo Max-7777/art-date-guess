@@ -1,0 +1,176 @@
+<html>
+	<header>
+		<title>Art Site</title>
+		<link rel='icon' href='art_icon.png' type="image/x-icon">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script src="art_data"></script>
+		<script type='text/javascript'>
+				let points = 0;
+				try {
+					points = Number(localStorage.getItem("points"));
+				} catch (err) {
+					console.log(err);
+				}
+				//save points to local storage before close tab
+				window.onbeforeunload = function () {
+					localStorage.setItem("points", points + "");
+				};
+				
+				addEventListener("DOMContentLoaded", (event) => {
+					document.getElementById("points").innerHTML = points + "";
+				});
+
+				let maxPoints = 100;
+				let maxDiff = 600;
+				let names = [];
+				let artists = [];
+				let dates = [];
+				let img = [];
+				let l = data.split('\n');
+				let guessing = true;
+				let originalImageWidth;
+				
+				for (let i = 0; i < l.length; i++) {
+					let z = l[i].split('$');
+					names.push(z[0]);
+					let a = (z[1].includes('(')) ? z[1].substring(0,z[1].indexOf('(')) : z[1];
+					artists.push(a.replace('�','-'));
+					let d = (z[2].includes('-')) ? z[2].substring(0,z[2].indexOf('-')) : z[2];
+					dates.push(d.replace('c. ','').replace('s',''));
+					img.push(z[3]);
+				}
+				
+				window.onload = function() {
+					changeImageRandom();
+					guessing = true;
+				};
+				
+				let imgs = [
+				'https://piction.clevelandart.org/cma/ump.di?e=07C6C3BD862A388EB1568E5747C30719D27E32B5AFAC31E05C8A1BA401B966B0&s=24247294&se=2123433717&v=3&f=%5Cd2087%5Cu284320872%5C1945.24_o5.jpg',
+				'https://piction.clevelandart.org/cma/ump.di?e=8FB760F48169EFA20FFF38E32EA672CF91ED0AC2A0A5A745830D9A483C55C284&s=24247294&se=340663891&v=4&f=1943.60_o5.jpg',
+				'https://piction.clevelandart.org/cma/ump.di?e=90B4F78C2143C17775026F29F14EF6902C1921249A095EA265A0542028525BAB&s=24247294&se=1905716243&v=0&f=1951.355_o5.jpg'
+				];
+				
+				let i = 0;
+				
+				function toggleGuessing(value) {
+					guessing = value;
+					if (guessing) {
+						document.getElementById('random').style.display = 'none';
+						document.getElementById('checkDate').style.display = 'inline';
+					} else {
+						document.getElementById('random').style.display = 'inline';
+						document.getElementById('checkDate').style.display = 'none';
+					}
+				}
+				
+				function changeImage(d) {
+					document.getElementById('result').innerHTML = '';
+					i = ((i + d) % names.length < 0) ? names.length - 1 : (i + d) % names.length;
+					setElements(i);
+					toggleGuessing(true);
+				}
+				
+				function changeImageRandom() {
+					let t = 800;
+					originalImageWidth = $("#image").width();
+					$( "#image" ).hide().slideDown({duration: t*0.5, queue: false});
+					$("#image").css('opacity', '0');
+					$( "#image" ).fadeTo(t, 1);
+					document.getElementById('result').innerHTML = '';
+					document.getElementById('player-date').innerHTML = '';
+					document.getElementById('actual-date').innerHTML = '';
+					document.getElementById('addition').innerHTML = '';
+					i = Math.floor(Math.random()*names.length);
+					setElements(i);
+					document.getElementById('random').style.display = 'inline';
+					toggleGuessing(true);
+					document.getElementById('textbox').value = '';
+				}
+				
+				function setElements(i) {
+					document.getElementById('name').innerHTML = names[i];
+					document.getElementById('artist').innerHTML = artists[i];
+					document.getElementById('date').innerHTML = '';
+					//document.getElementById('var').innerHTML = i;
+					document.getElementById('image').src = img[i];
+				}
+				
+				function isNumeric(str) {
+					if (typeof str != "string") return false;
+					return !isNaN(str) && !isNaN(parseFloat(str));
+				}
+				
+				function checkDate() {
+					let tb = document.getElementById('textbox');
+					let rs = document.getElementById('result');
+					let guess = tb.value.trim();
+					//-- guess needs to be number
+					if (!isNumeric(guess)) return;
+					
+					let actual = dates[i];
+					let player_date = document.getElementById('player-date');
+					let actual_date = document.getElementById('actual-date');
+					let additional_points = document.getElementById('addition');
+					let pointsGained = Math.round(getPoints(guess, actual) * 10) / 10;
+					if (pointsGained == 200) {
+						rs.innerHTML = pointsGained + ' points! Perfect Guess!';
+					} else {
+						rs.innerHTML = pointsGained + ' points! (Off by ' + Math.abs(guess - actual) + ' years)';
+					}
+					player_date.innerHTML = "Date guessed: " + guess;
+					actual_date.innerHTML = "✪ Actual date: " + actual;
+					additional_points.innerHTML = "+" + pointsGained;
+					points += pointsGained;
+					points = Math.round(points * 10) / 10;
+					document.getElementById('points').innerHTML = points + '';
+					document.getElementById('date').innerHTML = "Date: " + dates[i];
+					toggleGuessing(false);
+				}
+				
+				function getPoints(guess, actual) {
+					let x = Math.abs(guess - actual);
+					if (guess == actual) {
+						return 200;
+					}
+					return maxPoints * (2.7182**((-1 / (20 * maxDiff)) * (x**2)));
+				}
+			
+			
+		</script>
+	</header>
+	
+	<body>
+		<img src="texture.png" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0.6; user-drag: none; -webkit-user-drag: none; user-select: none; -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; z-index: -1;">
+		<h1 id="big-text"><center>Guess the Date of the Painting!</center></h1>
+		<div id="content">
+			<div id="painting-info">
+				<div id="painting-text">
+					<p>"<span id='name'></span>"</p>		
+					<p>Artist: <span id='artist'>Conrad Marca-Relli</span></p>		
+					<p id='date'></p>
+					<p>Total points: <b id='points'>0</b> <b><span id="addition" style="color: rgb(120, 120, 120); margin-left: 0.2rem;"></span></b></p>
+					
+					<input id='textbox' type='text' placeholder='Guess a date e.g. 1550'>
+					<button title='Enter guess' id='checkDate' class='button' onClick='checkDate()'>Enter Guess</button>
+					<button title='Pick a random painting' id='random' class="button" onClick='changeImageRandom()'>Next</button>
+					<p id="player-date"></p>
+					<p id="actual-date" style="color: rgb(220, 220, 240);"></p>
+					<p id='result' style="margin-bottom: 1rem;"></p>
+				</div>
+				<img id='image' alt='Painting Image'>
+			</div>
+		</div>
+	</body>
+	
+	<footer>
+		<p class="footer-stuff" id='reset-points' onClick='points = 0; document.getElementById("points").innerHTML = points + ""; changeImageRandom();'>Reset points</p>
+		<p class="footer-stuff">⁃</p>
+		<a class="footer-stuff" target="_blank" href="https://max-7777.github.io/max-site/index.html">My Website 🌐</a>
+		<p class="footer-stuff">⁃</p>
+		<a class="footer-stuff" href="https://www.clevelandart.org/" target="_blank">Cleveland Museum of Art</a> 
+	</footer>
+
+
+</html>
