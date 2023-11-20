@@ -37,7 +37,7 @@ body {
 
 p {
 	font-family: font4;
-	font-size: 16px;
+	font-size: 14px;
 	margin: 0.2rem 0 0.2rem 0;
 	color: var(--offwhite);
 }
@@ -68,15 +68,15 @@ img {
 }
 
 input {
-	height: 30px;
-	width: 18rem;
-	margin: 1rem 2rem 1rem 0;
-	padding: 1.2rem;
+	height: 1rem;
+	width: 14rem;
+	margin: 1rem 2rem 0rem 0;
+	padding: 1rem;
 	border-radius: 100px;
 	background-color: #01000f;
 	border: 3px solid rgba(255, 255, 255, 0.4);
 	color: var(--offwhite);
-	font-size: 16px;
+	font-size: 0.9rem;
 	
 	border: 2px solid rgba(255, 255, 255, 0.5);
 	-webkit-transition: 0.5s;
@@ -112,16 +112,16 @@ button:hover {
 	cursor: pointer;
 	margin: 10px;
 	margin-left: 0px;
-	height: 30px;
+	height: 20px;
 	display: inline-block;
-	height: 42px;
-	margin: 1rem 2rem 1rem 0;
+	height: 35.63px;
+	margin: 1rem 2rem 0.4rem 0;
 	padding: 0 1rem 0 1rem;
 	border-radius: 100px;
 	background-color: var(--offwhite);
 	border: 2px solid rgba(255, 255, 255, 0.4);
 	color: rgb(20, 20, 20);
-	font-size: 16px;
+	font-size: 0.9rem;
 }
 
 #checkDate:hover, #random:hover {
@@ -161,8 +161,8 @@ h1 {
 }
 
 #big-text {
-	margin-top: 4rem;
-	margin-bottom: 4rem;
+	margin-top: 4.5rem;
+	margin-bottom: 5rem;
 	font-size: 3.5rem;
 }
 
@@ -177,7 +177,7 @@ h1 {
 
 #image {
 	width: auto;
-	height: 580px;
+	height: 60%;
 }
 
 #painting-text {
