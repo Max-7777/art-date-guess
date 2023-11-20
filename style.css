@@ -1,5 +1,6 @@
 :root {
-	--offwhite: #f0f0f2; 
+	--offwhite: #f0f0f2;
+	font-size: 12px;
 }
 
 body {
@@ -37,23 +38,23 @@ body {
 
 p {
 	font-family: font4;
-	font-size: 14px;
+	font-size: 1rem;
 	margin: 0.2rem 0 0.2rem 0;
 	color: var(--offwhite);
 }
 
 b {
-	font-size: 16px;
+	font-size: 1rem;
 }
 
 h1 {
 	font-weight: normal;
-	font-size: 30px;
+	font-size: 2rem;
 	color: var(--offwhite);
 }
 
 h3 {
-	font-size: 30px;
+	font-size: 2rem;
 	font-weight: normal;
 	padding: 0px;
 	margin-top: 10px;
@@ -70,7 +71,7 @@ img {
 input {
 	height: 1rem;
 	width: 14rem;
-	margin: 1rem 2rem 0rem 0;
+	margin: 1.5rem 4rem 0rem 0;
 	padding: 1rem;
 	border-radius: 100px;
 	background-color: #01000f;
@@ -101,7 +102,7 @@ button {
 	background-color: rgba(0,0,0,0);
 	border: 2px solid rgba(255, 255, 255, 0.4);
 	color: var(--offwhite);
-	font-size: 16px;
+	font-size: 0.9rem;
 }
 
 button:hover {
@@ -112,9 +113,8 @@ button:hover {
 	cursor: pointer;
 	margin: 10px;
 	margin-left: 0px;
-	height: 20px;
 	display: inline-block;
-	height: 35.63px;
+	height: calc(0.9rem + 0.9rem + 6px);
 	margin: 1rem 2rem 0.4rem 0;
 	padding: 0 1rem 0 1rem;
 	border-radius: 100px;
@@ -161,7 +161,7 @@ h1 {
 }
 
 #big-text {
-	margin-top: 4.5rem;
+	margin-top: 5rem;
 	margin-bottom: 5rem;
 	font-size: 3.5rem;
 }
@@ -177,7 +177,7 @@ h1 {
 
 #image {
 	width: auto;
-	height: 60%;
+	height: 55%;
 }
 
 #painting-text {
